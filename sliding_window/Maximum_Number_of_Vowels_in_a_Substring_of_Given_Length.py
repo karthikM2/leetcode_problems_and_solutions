@@ -17,22 +17,14 @@ Output: 2
 Explanation: "lee", "eet" and "ode" contain 2 vowels.
 '''
 
-def maxVowels(s: str, k: int) -> int:
-    existing_char = set()
-    left = 0; start = 0; max_length = 0 
-    for i,right in enumerate(range(len(s))):
-        print(i);print('in for loop')
-        while s[right] in existing_char:
-            print('in while loop')
-            existing_char.remove(s[left])
-            left += 1
-        if s[right] in ['a','e','i','o','u']:
-            existing_char.add(s[right])
-        if right - left + 1 > max_length : 
-            max_length = right -left + 1
-            start = left
-
-    return(max_length)
-        
-result = maxVowels("abciiidef", 3)  # Output: 3
-print(result)
+class Solution:
+    def maxVowels(self, s: str, k: int) -> int:
+        vowels = set('aeiou')
+        max_count = window_count = 0
+        for i in range(len(s)):
+            if s[i] in vowels:
+                window_count += 1
+            if i >= k and s[i-k] in vowels:
+                window_count -=1
+            max_count = max(max_count,window_count)
+        return (max_count)
